@@ -19,13 +19,18 @@ export default function Search() {
     setFetching(true);
     // https://www.googleapis.com/books/v1/volumes?langRestrict=en&maxResults=16&q=YOUR_QUERY
     const res = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?langRestrict=en&maxResults=16&q=${query}`
+      `https://www.googleapis.com/books/v1/volumes?langRestrict=en&maxResults=16&q=${query
+        .split(" ")
+        .join("_")}`
     );
     const data = await res.json();
     // and stores the "items" property in the result to the bookSearchResults variable
-    setBookSearchResults(data);
+    let bookSearchResults = data;
+    // setBookSearchResults(data);
     setPreviousQuery(data);
-    console.log(setBookSearchResults(data));
+    console.log(bookSearchResults);
+    console.log(data.items[0].volumeInfo.title);
+
     // This function MUST prevent repeat searches if:
     // fetch has not finished
     // the query is unchanged
@@ -66,11 +71,18 @@ export default function Search() {
           <div className={styles.bookList}>
             {
               /* TODO: render BookPreview components for each search result here based on bookSearchResults */
-              bookSearchResults.forEach(() => {
-                bookList.push(<BookPreview />);
+              items.map((items, key) => {
+                return (
+                  <BookPreview
+                    key={key}
+                    title={items[key].volumeInfo.title}
+                    authors={items[key].volumeInfo.authors}
+                    thumbnail={items[key].volumeInfo.imageLinks.thumbnail}
+                    previewLink={items[key].volumeInfo.previewLink}
+                  />
+                );
               })
             }
-            {bookList}
           </div>
         ) : (
           <NoResults
