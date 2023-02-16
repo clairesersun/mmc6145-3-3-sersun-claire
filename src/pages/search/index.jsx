@@ -15,7 +15,7 @@ export default function Search() {
   // TODO: Write a submit handler for the form that fetches data from:
   async function handleSubmit(e) {
     e.preventDefault();
-    if (fetching || query === previousQuery) return;
+    if (fetching || query === previousQuery || query === "") return;
     setFetching(true);
     // https://www.googleapis.com/books/v1/volumes?langRestrict=en&maxResults=16&q=YOUR_QUERY
     const res = await fetch(
@@ -71,7 +71,7 @@ export default function Search() {
           <div className={styles.bookList}>
             {
               /* TODO: render BookPreview components for each search result here based on bookSearchResults */
-              items.map((items, key) => {
+              items.forEach((items, key) => {
                 return (
                   <BookPreview
                     key={key}
