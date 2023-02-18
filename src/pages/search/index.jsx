@@ -1,5 +1,5 @@
 import BookPreview from "../../components/bookPreview";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./style.module.css";
 
 export default function Search() {
@@ -25,11 +25,9 @@ export default function Search() {
     );
     const data = await res.json();
     // and stores the "items" property in the result to the bookSearchResults variable
-    let bookSearchResults = data;
-    // setBookSearchResults(data);
+    setBookSearchResults(data);
     setPreviousQuery(data);
-    console.log(bookSearchResults);
-    console.log(data.items[0].volumeInfo.title);
+    // console.log(bookSearchResults.items[0].volumeInfo.title);
 
     // This function MUST prevent repeat searches if:
     // fetch has not finished
@@ -71,14 +69,15 @@ export default function Search() {
           <div className={styles.bookList}>
             {
               /* TODO: render BookPreview components for each search result here based on bookSearchResults */
-              items.forEach((items, key) => {
+
+              bookSearchResults.items.map((item, index) => {
                 return (
                   <BookPreview
-                    key={key}
-                    title={items[key].volumeInfo.title}
-                    authors={items[key].volumeInfo.authors}
-                    thumbnail={items[key].volumeInfo.imageLinks.thumbnail}
-                    previewLink={items[key].volumeInfo.previewLink}
+                    key={index}
+                    title={item[index].volumeInfo.title}
+                    authors={item[index].volumeInfo.authors}
+                    thumbnail={item[index].volumeInfo.imageLinks.thumbnail}
+                    previewLink={item[index].volumeInfo.previewLink}
                   />
                 );
               })
