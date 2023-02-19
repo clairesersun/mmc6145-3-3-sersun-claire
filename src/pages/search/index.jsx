@@ -25,8 +25,8 @@ export default function Search() {
     );
     const data = await res.json();
     // and stores the "items" property in the result to the bookSearchResults variable
-    setBookSearchResults(data);
-    setPreviousQuery(data);
+    setBookSearchResults(data.items);
+    setPreviousQuery(query);
     // console.log(bookSearchResults.items[0].volumeInfo.title);
 
     // This function MUST prevent repeat searches if:
@@ -70,13 +70,13 @@ export default function Search() {
             {
               /* TODO: render BookPreview components for each search result here based on bookSearchResults */
 
-              bookSearchResults.items.map((item, index) => {
+              bookSearchResults.map((item, index) => {
                 return (
                   <BookPreview
                     key={index}
                     title={item.volumeInfo.title}
                     authors={item.volumeInfo.authors}
-                    thumbnail={item.volumeInfo.imageLinks.thumbnail}
+                    thumbnail={item.volumeInfo.imageLinks?.thumbnail}
                     previewLink={item.volumeInfo.previewLink}
                   />
                 );
