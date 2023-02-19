@@ -74,10 +74,10 @@ export default function Search() {
                 return (
                   <BookPreview
                     key={index}
-                    title={item[index].volumeInfo.title}
-                    authors={item[index].volumeInfo.authors}
-                    thumbnail={item[index].volumeInfo.imageLinks.thumbnail}
-                    previewLink={item[index].volumeInfo.previewLink}
+                    title={item.volumeInfo.title}
+                    authors={item.volumeInfo.authors}
+                    thumbnail={item.volumeInfo.imageLinks.thumbnail}
+                    previewLink={item.volumeInfo.previewLink}
                   />
                 );
               })
